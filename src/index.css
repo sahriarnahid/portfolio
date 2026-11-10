@@ -1,0 +1,405 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Warm Editorial Newsprint Theme (Helena Zhang Inspired) */
+  --bg-paper: #F4F0EA;
+  --bg-panel: #EBE5DC;
+  --bg-vcr-outer: #C8C2B6;
+  --bg-vcr-inner: #DED8CC;
+  --vcr-text: #181A19;
+  --vcr-subtext: #454B48;
+  --vcr-accent: #C84B31;
+  --ink: #1E201F;
+  --ink-muted: #585F5C;
+  --rule-color: #1E201F;
+  --highlight: rgba(244, 228, 122, 0.72);
+  --highlight-hover: rgba(255, 232, 83, 0.92);
+  --note-color: #2F3532;
+  --card-shadow: rgba(30, 32, 31, 0.14);
+  --skill-tile-bg: #FAF8F3;
+}
+
+/* Crisp Dark CRT Editorial Mode (Defaulting to ON) */
+body.crt-mode {
+  --bg-paper: #111312;
+  --bg-panel: #171A19;
+  --bg-vcr-outer: #1A1E1C;
+  --bg-vcr-inner: #131615;
+  --vcr-text: #EDE8DF;
+  --vcr-subtext: #9BA8A1;
+  --vcr-accent: #E5A93C;
+  --ink: #EAE5DC;
+  --ink-muted: #8E9A94;
+  --rule-color: #363F3B;
+  --highlight: rgba(212, 104, 92, 0.32);
+  --highlight-hover: rgba(212, 104, 92, 0.55);
+  --note-color: #E2CB8A;
+  --card-shadow: rgba(0, 0, 0, 0.45);
+  --skill-tile-bg: #1D2220;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-paper);
+  color: var(--ink);
+  font-family: 'Newsreader', Georgia, serif;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  overflow-x: hidden;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-mono-tech {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+}
+
+.font-hand {
+  font-family: 'Caveat', cursive;
+}
+
+/* Block-Out Display Title ("SAHRIAR NAHID") */
+.retro-title {
+  font-family: 'Rubik', sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  line-height: 1.02;
+}
+
+.letter-chip {
+  display: inline-block;
+  -webkit-text-stroke: 2px #1E201F;
+  paint-order: stroke fill;
+  filter: drop-shadow(0px 3px 0px #1E201F);
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: default;
+}
+
+body.crt-mode .letter-chip {
+  -webkit-text-stroke: 2px #080909;
+  filter: drop-shadow(0px 3px 0px #080909);
+}
+
+.letter-chip:hover {
+  transform: translateY(-3px) rotate(-1.5deg);
+}
+
+.c-coral { color: #D4685C; }
+.c-blue  { color: #7C95A6; }
+.c-cream { color: #EFE1C6; }
+
+/* Helena Zhang Razor-Sharp Newspaper Double Hairline Rules */
+.double-rule-hr {
+  border: 0;
+  height: 4px;
+  border-top: 1px solid var(--rule-color);
+  border-bottom: 1px solid var(--rule-color);
+  background: transparent;
+}
+
+/* Organic Marker Highlight on Clean Editorial Surface */
+mark.marker-highlight {
+  background: transparent;
+  color: inherit;
+  position: relative;
+  padding: 0 0.18em;
+  margin: 0 -0.05em;
+  cursor: pointer;
+  display: inline-block;
+  z-index: 1;
+}
+
+mark.marker-highlight::before {
+  content: "";
+  position: absolute;
+  inset: 12% -2% 6% -2%;
+  background-color: var(--highlight);
+  z-index: -1;
+  border-radius: 3px 8px 2px 6px / 6px 3px 8px 3px;
+  transform: rotate(-0.4deg);
+  transition: all 0.18s ease;
+}
+
+body.crt-mode mark.marker-highlight::before {
+  border-bottom: 1px solid #D4685C;
+}
+
+mark.marker-highlight:hover::before {
+  background-color: var(--highlight-hover);
+  transform: rotate(0.2deg) scale(1.015);
+}
+
+/* Crisp Double-Ring Hairline Avatar Border */
+.avatar-ring {
+  border: 1px solid var(--rule-color);
+  box-shadow: 
+    inset 0 0 0 4px var(--bg-paper),
+    inset 0 0 0 5px var(--rule-color);
+}
+
+/* Sleek Mechanical VCR Button (1px Razor-Sharp Border) */
+.vcr-btn {
+  background-color: #7D9198;
+  color: #151817;
+  border: 1px solid var(--rule-color);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.28);
+  transition: all 0.12s ease;
+  border-radius: 2px;
+}
+
+.vcr-btn:hover {
+  background-color: #8FA3AA;
+}
+
+.vcr-btn:active, .vcr-btn.playing {
+  background-color: #D4685C;
+  color: #FFF9F0;
+}
+
+/* Toy Box Hardware Station Container */
+.toy-station {
+  position: relative;
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.toy-station:hover {
+  transform: translateY(-3px);
+}
+
+.hardware-svg {
+  filter: drop-shadow(0px 4px 0px var(--card-shadow));
+  transition: filter 0.2s ease;
+}
+
+.toy-station:hover .hardware-svg {
+  filter: drop-shadow(0px 6px 0px var(--card-shadow));
+}
+
+/* VHS Tape Reel Spin Animation */
+@keyframes spinReel {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.reel-spinning {
+  animation: spinReel 2.8s linear infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.reel-paused {
+  animation-play-state: paused !important;
+}
+
+/* Animated Tape Ribbon Flow */
+@keyframes tapeRibbonFlow {
+  from { stroke-dashoffset: 16; }
+  to { stroke-dashoffset: 0; }
+}
+
+.tape-ribbon-moving {
+  animation: tapeRibbonFlow 0.7s linear infinite;
+}
+
+.tape-ribbon-paused {
+  animation-play-state: paused !important;
+}
+
+/* Tactile 3D Hardware Icon Buttons for VHS Transport Bar */
+.hw-transport-btn {
+  background: linear-gradient(180deg, #8A9EA6 0%, #6A7D84 100%);
+  color: #141716;
+  border: 1px solid #1E201F;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    0 2px 0 #1E201F;
+  border-radius: 3px;
+  transition: all 0.1s ease;
+}
+
+.hw-transport-btn:hover {
+  background: linear-gradient(180deg, #9BB0B8 0%, #7A8E96 100%);
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    0 3px 0 #1E201F;
+}
+
+.hw-transport-btn:active {
+  transform: translateY(1px);
+  box-shadow:
+    inset 0 1px 2px rgba(0, 0, 0, 0.35),
+    0 1px 0 #1E201F;
+}
+
+/* GitHub README Style Tech Logo Tile (Sharp 1px Editorial Frame + Fixed Tooltip Z-Index) */
+.skill-card,
+.skill-logo-grid {
+  overflow: visible !important;
+}
+
+.tech-logo-tile,
+.skill-logo-tile {
+  position: relative;
+  z-index: 1;
+  background-color: var(--skill-tile-bg);
+  border: 1px solid var(--rule-color);
+  border-radius: 2px;
+  overflow: visible !important;
+  transition: transform 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.tech-logo-tile:hover,
+.skill-logo-tile:hover {
+  position: relative;
+  z-index: 9999 !important;
+  transform: translateY(-2px);
+  border-color: #D4685C;
+}
+
+.skill-logo-tile::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 7px);
+  left: 50%;
+  transform: translateX(-50%) translateY(3px);
+  background-color: #151716;
+  color: #F4F0EA;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  padding: 4px 8px;
+  border: 1px solid #D4685C;
+  border-radius: 2px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 10000 !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+  transition: opacity 0.14s ease, transform 0.14s ease;
+}
+
+.skill-logo-tile:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Kozoriz.com-Style Vertical Timeline with Organization Logo Badges on the Line */
+.kozoriz-timeline {
+  position: relative;
+  padding-left: 3.75rem;
+}
+
+.kozoriz-timeline::before {
+  content: "";
+  position: absolute;
+  left: 21px;
+  top: 12px;
+  bottom: 12px;
+  width: 1px;
+  background-color: var(--rule-color);
+}
+
+.kozoriz-item {
+  position: relative;
+  transition: border-color 0.18s ease, transform 0.18s ease;
+}
+
+.kozoriz-item:hover {
+  border-color: #D4685C;
+}
+
+.kozoriz-logo-badge {
+  position: absolute;
+  left: -3.75rem;
+  top: 1rem;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background-color: var(--bg-paper);
+  border: 1px solid var(--rule-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  box-shadow: 0 2px 8px var(--card-shadow);
+  transition: border-color 0.18s ease, transform 0.18s ease;
+}
+
+.kozoriz-item:hover .kozoriz-logo-badge {
+  border-color: #D4685C;
+  transform: scale(1.05);
+}
+
+/* Boombox Speaker Pulse when Playing Radio */
+@keyframes speakerBounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+.speaker-active {
+  animation: speakerBounce 0.35s ease-in-out infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+/* Ultra-Fine Helena Zhang Style Microscopic Static Noise */
+@keyframes helenaStaticShift {
+  0%   { background-position: 0px 0px; }
+  10%  { background-position: -37px -19px; }
+  20%  { background-position: 23px -41px; }
+  30%  { background-position: -61px 13px; }
+  40%  { background-position: 17px 53px; }
+  50%  { background-position: -47px -31px; }
+  60%  { background-position: 43px 29px; }
+  70%  { background-position: -29px 67px; }
+  80%  { background-position: 59px -11px; }
+  90%  { background-position: -13px -59px; }
+  100% { background-position: 31px 41px; }
+}
+
+#footer-static-canvas {
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}
+
+/* CRT Static Flash Overlay (Upgraded to Ultra-Fine Microscopic Grain) */
+#static-flash {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  opacity: 0;
+  background-repeat: repeat;
+  background-size: 140px 140px;
+  image-rendering: pixelated;
+  animation: helenaStaticShift 0.32s steps(1) infinite;
+  transition: opacity 0.08s ease;
+}
+
+#static-flash.active {
+  opacity: 0.24;
+}
+
+/* Subtle CRT Scanline in Dark Mode */
+body.crt-mode::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 45;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.18) 50%
+  );
+  background-size: 100% 4px;
+}
+
